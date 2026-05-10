@@ -1,0 +1,57 @@
+{
+  "name": "@openharness/core",
+  "version": "0.1.0",
+  "description": "OpenHarness core engine — plugin registry, gate engine, hook engine, AI platform adapters",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "openharness": "./bin/openharness.js"
+  },
+  "files": [
+    "dist/",
+    "bin/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "cli": "node bin/openharness.js"
+  },
+  "keywords": [
+    "openharness",
+    "ai",
+    "governance",
+    "codex",
+    "claude",
+    "cursor",
+    "copilot",
+    "cline",
+    "trae",
+    "hooks",
+    "gates",
+    "openspec",
+    "engineering-rules"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanqi9622-eng/openharness.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/openharness/openharness#readme",
+  "dependencies": {
+    "chalk": "^5.4.0",
+    "commander": "^13.0.0",
+    "yaml": "^2.7.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

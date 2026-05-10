@@ -1,0 +1,143 @@
+name: openharness-spring
+version: 1.0.0
+description: "Spring Boot + JPA engineering governance plugin pack for OpenHarness"
+author: openharness-team
+license: Apache-2.0
+homepage: https://github.com/openharness/openharness
+repository: https://github.com/openharness/openharness
+
+provides:
+  skills:
+    - id: spring-architecture-review
+      name: Spring Architecture Review
+      description: "Audit Controller/Service/Repository/Entity layering compliance"
+      path: skills/spring-architecture-review/SKILL.md
+      triggers:
+        - "*.java"
+    - id: sql-risk-review
+      name: SQL Risk Review
+      description: "SQL injection, N+1 queries, batch safety, pagination audit"
+      path: skills/sql-risk-review/SKILL.md
+      triggers:
+        - "*.java"
+        - "*.xml"
+        - "*.sql"
+    - id: prepare-review
+      name: Prepare Review
+      description: "Generate change summary before human review"
+      path: skills/prepare-review/SKILL.md
+      triggers: []
+
+  agents:
+    - id: reviewer
+      name: Reviewer Agent
+      description: "Independent read-only code auditor"
+      path: agents/reviewer.md
+
+  gates:
+    - id: spring-compile
+      name: Backend Compile
+      command: "mvn compile -q -DskipTests"
+      optional: false
+      platform: all
+    - id: spring-test
+      name: Backend Unit Tests
+      command: "mvn test -q"
+      optional: false
+      platform: all
+    - id: spring-integration-test
+      name: Backend Integration Tests
+      command: "mvn verify -q -DskipUnitTests"
+      optional: true
+      platform: all
+    - id: flyway-validate
+      name: Flyway Migration Validate
+      command: "mvn flyway:validate -q"
+      optional: true
+      platform: all
+
+  hooks:
+    - id: guard-write
+      path: hooks/guard_write.py
+      event: pre_write
+      language: python
+    - id: ensure-change-context
+      path: hooks/ensure_change_context.py
+      event: pre_write
+      language: python
+    - id: run-checks
+      path: hooks/run_checks.sh
+      event: post_write
+      language: bash
+    - id: run-checks-node
+      path: hooks/run_checks.js
+      event: post_write
+      language: node
+
+  standards:
+    - id: database
+      name: Database & SQL Standards
+      path: standards/database.md
+      category: data
+    - id: testing
+      name: Testing Standards
+      path: standards/testing.md
+      category: quality
+
+  protectedPaths:
+    - pattern: "^application-prod\\.yml$"
+      category: "Production Config"
+      severity: blocking
+    - pattern: "^application-prod\\.yaml$"
+      category: "Production Config"
+      severity: blocking
+    - pattern: "^application-prod\\.properties$"
+      category: "Production Config"
+      severity: blocking
+    - pattern: ".*/db/migration/.*"
+      category: "Database Migration"
+      severity: blocking
+    - pattern: ".*/sql/.*"
+      category: "SQL Scripts"
+      severity: blocking
+    - pattern: ".*/deploy/.*"
+      category: "Deployment"
+      severity: blocking
+    - pattern: ".*/secrets/.*"
+      category: "Secrets"
+      severity: blocking
+    - pattern: ".*\\.env$"
+      category: "Environment"
+      severity: blocking
+    - pattern: ".*\\.pem$"
+      category: "Certificates"
+      severity: blocking
+    - pattern: ".*SecurityConfig\\.java$"
+      category: "Security Config"
+      severity: blocking
+
+  codeFilePatterns:
+    - ".*\\.java$"
+    - ".*\\.kt$"
+    - ".*\\.ts$"
+    - ".*\\.tsx$"
+    - ".*\\.vue$"
+    - ".*\\.js$"
+    - ".*\\.jsx$"
+    - ".*\\.py$"
+    - ".*\\.sql$"
+    - ".*\\.xml$"
+
+constrains:
+  languages:
+    - java
+    - kotlin
+  frameworks:
+    - spring-boot
+  aiPlatforms:
+    - claude-code
+    - cursor
+    - copilot
+    - cline
+    - windsurf
+    - aider

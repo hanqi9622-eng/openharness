@@ -1,0 +1,25 @@
+{
+  "name": "@openharness/plugin-spring",
+  "version": "1.0.0",
+  "description": "Spring Boot + JPA engineering governance plugin for OpenHarness",
+  "type": "module",
+  "main": "./openharness.plugin.yaml",
+  "files": [
+    "openharness.plugin.yaml",
+    "skills/**/*",
+    "agents/**/*",
+    "hooks/**/*",
+    "gates/**/*",
+    "standards/**/*",
+    "templates/**/*"
+  ],
+  "keywords": [
+    "openharness",
+    "plugin",
+    "spring-boot",
+    "jpa",
+    "governance",
+    "code-review"
+  ],
+  "license": "Apache-2.0"
+}
