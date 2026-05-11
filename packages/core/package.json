@@ -16,7 +16,8 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "cli": "node bin/openharness.js"
+    "cli": "node bin/openharness.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "openharness",
